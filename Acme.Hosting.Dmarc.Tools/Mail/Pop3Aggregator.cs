@@ -4,8 +4,6 @@
 
 namespace Acme.Hosting.Dmarc.Tools.Mail;
 
-using System.IO.Compression;
-
 using Acme.Hosting.Dmarc.Tools.Abstractions;
 using Acme.Hosting.Dmarc.Tools.Abstractions.Models;
 using Acme.Hosting.Dmarc.Tools.Options;
