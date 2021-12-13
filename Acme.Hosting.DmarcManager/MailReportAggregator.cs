@@ -1,13 +1,6 @@
-// -----------------------------------------------------------------------
-//  <copyright file="MailReportAggregator.cs" company="TODO">
-//  Copyright (c) TODO. All rights reserved.
-//  </copyright>
-// -----------------------------------------------------------------------
-
-//  <copyright file="MailReportAggregator.cs" company="TODO">
-//  Copyright (c) TODO. All rights reserved.
-//  </copyright>
-// -----------------------------------------------------------------------
+// <copyright file="MailReportAggregator.cs" company="Acme">
+// Copyright (c) Acme. All rights reserved.
+// </copyright>
 
 namespace Acme.Hosting.DmarcManager;
 
@@ -22,6 +15,6 @@ public static class MailReportAggregator
     [FunctionName("MailReportAggregator")]
     public static async Task RunAsync([TimerTrigger("0 */5 * * * *")] TimerInfo myTimer, ILogger log)
     {
-        log.LogInformation($"C# Timer trigger function executed at: {DateTime.UtcNow}");
+        log.LogInformation("MailReportAggregator executed by a http trigger function at: {date}", DateTime.UtcNow);
     }
 }
