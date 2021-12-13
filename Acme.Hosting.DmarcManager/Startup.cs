@@ -15,9 +15,7 @@ using System;
 using Acme.Hosting.Dmarc.Tools;
 
 using Microsoft.Azure.Functions.Extensions.DependencyInjection;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
 
 public class Startup : FunctionsStartup
 {
