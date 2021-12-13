@@ -5,7 +5,11 @@ on:
     branches: [ main ]
   pull_request:
     branches: [ main ]
-
+env:
+  AZURE_FUNCTIONAPP_NAME: acme-dmarc     # set this to your application's name
+  AZURE_FUNCTIONAPP_PACKAGE_PATH: '.'    # set this to the path to your web app project, defaults to the repository root
+  DOTNET_VERSION: '6.x'                  # set this to the dotnet version to use
+  
 jobs:
   build:
 
@@ -17,13 +21,26 @@ jobs:
     - name: Setup .NET
       uses: actions/setup-dotnet@v1
       with:
-        dotnet-version: 6.x
-        
-    - name: Restore dependencies
-      run: dotnet restore
+        dotnet-version: ${{ env.DOTNET_VERSION }}
       
     - name: Build
-      run: dotnet build --no-restore --configuration Release --output ./output
+      shell: bash
+      run: |
+        pushd './${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}'
+        dotnet build --configuration Release --output ./output
+        popd
       
     - name: Test
-      run: dotnet test --no-build --verbosity normal
+      shell: bash
+      run: |
+        pushd './${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}'
+        dotnet test --no-build --verbosity normal
+        popd
+      
+    - name: Publish Azure Functions Action
+      uses: Azure/functions-action@v1.4.4
+      with:
+        app-name: ${{ env.AZURE_FUNCTIONAPP_NAME }}
+        package: '${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}/output'
+        publish-profile: ${{ secrets.AZURE_FUNCTIONAPP_PUBLISH_PROFILE }}
+      
