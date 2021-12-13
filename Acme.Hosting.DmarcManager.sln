@@ -4,6 +4,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Acme.Hosting.DmarcManager",
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Acme.Hosting.Dmarc.Tools", "Acme.Hosting.Dmarc.Tools\Acme.Hosting.Dmarc.Tools.csproj", "{D3FF5127-A3FA-4E71-A832-921F6217E540}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Acme.Hosting.Dmarc.Tools.Abstractions", "Acme.Hosting.Dmarc.Tools.Abstractions\Acme.Hosting.Dmarc.Tools.Abstractions.csproj", "{CEC48424-293C-4ACB-ADB1-7471AB022788}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -18,5 +20,9 @@ Global
 		{D3FF5127-A3FA-4E71-A832-921F6217E540}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D3FF5127-A3FA-4E71-A832-921F6217E540}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D3FF5127-A3FA-4E71-A832-921F6217E540}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CEC48424-293C-4ACB-ADB1-7471AB022788}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CEC48424-293C-4ACB-ADB1-7471AB022788}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CEC48424-293C-4ACB-ADB1-7471AB022788}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CEC48424-293C-4ACB-ADB1-7471AB022788}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
