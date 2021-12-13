@@ -2,7 +2,7 @@
 // Copyright (c) Acme. All rights reserved.
 // </copyright>
 
-namespace Acme.Hosting.Dmarc.Tools;
+namespace Acme.Hosting.Dmarc.Tools.Abstractions;
 
 public interface IPop3Aggregator
 {

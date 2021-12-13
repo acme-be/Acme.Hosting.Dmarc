@@ -12,7 +12,10 @@ namespace Acme.Hosting.DmarcManager;
 
 using System;
 
-using Acme.Hosting.Dmarc.Tools;
+using Acme.Hosting.Dmarc.Tools.Abstractions;
+using Acme.Hosting.Dmarc.Tools.Mail;
+using Acme.Hosting.Dmarc.Tools.Options;
+using Acme.Hosting.Dmarc.Tools.Stores;
 
 using Microsoft.Azure.Functions.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection;
@@ -21,7 +24,7 @@ public class Startup : FunctionsStartup
 {
     public override void Configure(IFunctionsHostBuilder builder)
     {
-        builder.Services.Configure<Pop3Configuration>(configuration =>
+        builder.Services.Configure<Pop3Options>(configuration =>
         {
             var popConnectionString = GetEnvironmentVariable("PopConnectionString");
 
@@ -34,7 +37,10 @@ public class Startup : FunctionsStartup
             configuration.Password = GetEnvironmentVariable("PopPassword");
         });
 
-        builder.Services.AddSingleton<IPop3Aggregator, Pop3Aggregator>();
+        builder.Services.Configure<ServiceBusOptions>(options => { options.ConnectionString = GetEnvironmentVariable("ServiceBusConnectionString"); });
+
+        builder.Services.AddScoped<IPop3Aggregator, Pop3Aggregator>();
+        builder.Services.AddScoped<IRawReportStorage, RawReportStorage>();
     }
 
     private static string GetEnvironmentVariable(string name)
