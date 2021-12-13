@@ -11,5 +11,6 @@ public class ServiceBusOptions
     public static class Queues
     {
         public const string RawReports = "RawReports";
+        public const string Reports = "Reports";
     }
 }

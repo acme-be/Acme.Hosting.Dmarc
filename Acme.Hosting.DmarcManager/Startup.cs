@@ -41,6 +41,7 @@ public class Startup : FunctionsStartup
 
         builder.Services.AddScoped<IPop3Aggregator, Pop3Aggregator>();
         builder.Services.AddScoped<IRawReportStorage, RawReportStorage>();
+        builder.Services.AddScoped<IXmlReportStorage, XmlReportStorage>();
     }
 
     private static string GetEnvironmentVariable(string name)

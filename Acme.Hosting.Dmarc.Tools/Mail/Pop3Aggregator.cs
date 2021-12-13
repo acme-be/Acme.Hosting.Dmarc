@@ -13,6 +13,8 @@ using MailKit.Net.Pop3;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 
+using MimeKit;
+
 public class Pop3Aggregator : IPop3Aggregator
 {
     private readonly ILogger<Pop3Aggregator> logger;
@@ -45,6 +47,17 @@ public class Pop3Aggregator : IPop3Aggregator
             foreach (var attachment in message.Attachments)
             {
                 await using var memoryStream = new MemoryStream();
+
+                switch (attachment)
+                {
+                    case MessagePart rfc822:
+                        await rfc822.Message.WriteToAsync(memoryStream);
+                        break;
+                    case MimePart part:
+                        await part.Content.DecodeToAsync(memoryStream);
+                        break;
+                }
+
                 await attachment.WriteToAsync(memoryStream);
                 await memoryStream.FlushAsync();
                 memoryStream.Seek(0, SeekOrigin.Begin);
