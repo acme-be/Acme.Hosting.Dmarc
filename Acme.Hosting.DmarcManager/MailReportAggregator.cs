@@ -22,7 +22,7 @@ public class MailReportAggregator
     }
 
     [FunctionName("MailReportAggregator")]
-    public async Task RunAsync([TimerTrigger("0 */5 * * * *")] TimerInfo myTimer, ILogger log)
+    public async Task RunAsync([TimerTrigger("0 0 * * * *")] TimerInfo myTimer, ILogger log)
     {
         log.LogInformation("MailReportAggregator executed by a http trigger function at: {date}", DateTime.UtcNow);
 
