@@ -12,12 +12,15 @@ namespace Acme.Hosting.DmarcManager;
 
 using System;
 
+using Acme.Hosting.Dmarc.Repository;
 using Acme.Hosting.Dmarc.Tools.Abstractions;
 using Acme.Hosting.Dmarc.Tools.Mail;
 using Acme.Hosting.Dmarc.Tools.Options;
 using Acme.Hosting.Dmarc.Tools.Stores;
+using Acme.Hosting.Dmarc.Tools.Xml;
 
 using Microsoft.Azure.Functions.Extensions.DependencyInjection;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 
 public class Startup : FunctionsStartup
@@ -39,9 +42,13 @@ public class Startup : FunctionsStartup
 
         builder.Services.Configure<ServiceBusOptions>(options => { options.ConnectionString = GetEnvironmentVariable("ServiceBusConnectionString"); });
 
+        var connectionString = GetEnvironmentVariable("SqlConnectionString");
+        builder.Services.AddDbContext<DmarcDbContext>(options => options.UseSqlServer(connectionString));
+
         builder.Services.AddScoped<IPop3Aggregator, Pop3Aggregator>();
         builder.Services.AddScoped<IRawReportStorage, RawReportStorage>();
         builder.Services.AddScoped<IXmlReportStorage, XmlReportStorage>();
+        builder.Services.AddScoped<IXmlReportGenerator, XmlReportGenerator>();
     }
 
     private static string GetEnvironmentVariable(string name)

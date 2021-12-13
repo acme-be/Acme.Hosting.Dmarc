@@ -6,6 +6,7 @@
     "PopConnectionString": "*************************",
     "PopUserName": "*********************************",
     "PopPassword": "*********************************",
-    "ServiceBusConnectionString": "******************"
+    "ServiceBusConnectionString": "******************",
+    "SqlConnectionString": "*************************"
   }
 }
