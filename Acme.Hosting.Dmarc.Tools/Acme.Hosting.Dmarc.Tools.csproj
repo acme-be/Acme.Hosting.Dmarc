@@ -15,6 +15,7 @@
     </ItemGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\Acme.Hosting.Dmarc.Repository\Acme.Hosting.Dmarc.Repository.csproj" />
       <ProjectReference Include="..\Acme.Hosting.Dmarc.Tools.Abstractions\Acme.Hosting.Dmarc.Tools.Abstractions.csproj" />
     </ItemGroup>
 

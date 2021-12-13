@@ -4,6 +4,8 @@
 
 namespace Acme.Hosting.Dmarc.Repository;
 
+using Acme.Hosting.Dmarc.Repository.Model;
+
 using Microsoft.EntityFrameworkCore;
 
 public class DmarcDbContext : DbContext
@@ -12,4 +14,6 @@ public class DmarcDbContext : DbContext
         : base(options)
     {
     }
+
+    public DbSet<AggregatedReport> AggregatedReports { get; set; } = null!;
 }
