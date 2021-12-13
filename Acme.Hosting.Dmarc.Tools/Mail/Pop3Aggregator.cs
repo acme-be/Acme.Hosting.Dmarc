@@ -49,7 +49,7 @@ public class Pop3Aggregator : IPop3Aggregator
                 await memoryStream.FlushAsync();
                 memoryStream.Seek(0, SeekOrigin.Begin);
 
-                await this.rawReportStorage.StoreAsync(new RawReport(attachment.ContentDisposition.FileName, attachment.ContentType.Name, memoryStream.ToArray()));
+                await this.rawReportStorage.StoreAsync(new RawReport(attachment.ContentDisposition.FileName, attachment.ContentType.MimeType, memoryStream.ToArray()));
             }
 
             await client.DeleteMessageAsync(i);
