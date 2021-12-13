@@ -7,42 +7,30 @@ namespace Acme.Hosting.Dmarc.Tools;
 using MailKit.Net.Pop3;
 
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 
-public class Pop3Aggregator
+public class Pop3Aggregator : IPop3Aggregator
 {
-    private readonly ILogger logger;
+    private readonly ILogger<Pop3Aggregator> logger;
+    private readonly Pop3Configuration options;
 
-    private readonly string popPassword;
-
-    private readonly int popPort;
-
-    private readonly string popServer;
-
-    private readonly string popUserName;
-
-    private readonly bool popUseSsl;
-
-    public Pop3Aggregator(ILogger logger, string popConnectionString, string popUserName, string popPassword)
+    public Pop3Aggregator(ILogger<Pop3Aggregator> logger, IOptions<Pop3Configuration> options)
     {
-        this.popUserName = popUserName;
-        this.popPassword = popPassword;
         this.logger = logger;
-
-        var parsedConnection = popConnectionString.Split(';');
-        this.popServer = parsedConnection[0];
-        this.popPort = int.Parse(parsedConnection[1]);
-        this.popUseSsl = bool.Parse(parsedConnection[2]);
+        this.options = options.Value;
     }
 
     public async Task ExecuteAsync()
     {
         using var client = new Pop3Client();
 
-        this.logger.LogDebug("Connecting to {popServer}:{popPort} ({popUseSsl})", this.popServer, this.popPort, this.popUseSsl);
-        await client.ConnectAsync(this.popServer, this.popPort, this.popUseSsl);
+        this.logger.LogDebug("Connecting to {popServer}:{popPort} ({popUseSsl})", this.options.Server, this.options.Port, this.options.UseSsl);
+        await client.ConnectAsync(this.options.Server, this.options.Port, this.options.UseSsl);
 
-        this.logger.LogDebug("Authenticating with {popUserName}", this.popUserName);
-        await client.AuthenticateAsync(this.popUserName, this.popPassword);
+        this.logger.LogDebug("Authenticating with {popUserName}", this.options.UserName);
+        await client.AuthenticateAsync(this.options.UserName, this.options.Password);
+
+        this.logger.LogInformation("Client has {unread} unread messages", client.Count);
 
         this.logger.LogDebug("Desconnecting");
         await client.DisconnectAsync(true);
