@@ -1,4 +1,4 @@
-// <copyright file="Pop3Configuration.cs" company="Acme">
+// <copyright file="Pop3Options.cs" company="Acme">
 // Copyright (c) Acme. All rights reserved.
 // </copyright>
 

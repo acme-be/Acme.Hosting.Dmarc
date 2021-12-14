@@ -7,18 +7,20 @@ namespace Acme.Hosting.DmarcManager;
 using System;
 using System.Threading.Tasks;
 
-using Acme.Hosting.Dmarc.Tools.Abstractions;
+using Acme.Hosting.Dmarc.Events;
+
+using MediatR;
 
 using Microsoft.Azure.WebJobs;
 using Microsoft.Extensions.Logging;
 
 public class MailReportAggregator
 {
-    private readonly IPop3Aggregator pop3Aggregator;
+    private readonly IMediator mediator;
 
-    public MailReportAggregator(IPop3Aggregator pop3Aggregator)
+    public MailReportAggregator(IMediator mediator)
     {
-        this.pop3Aggregator = pop3Aggregator;
+        this.mediator = mediator;
     }
 
     [FunctionName("MailReportAggregator")]
@@ -26,6 +28,6 @@ public class MailReportAggregator
     {
         log.LogInformation("MailReportAggregator executed by a http trigger function at: {date}", DateTime.UtcNow);
 
-        await this.pop3Aggregator.ExecuteAsync();
+        await this.mediator.Publish(new FetchReportsEvent());
     }
 }

@@ -12,12 +12,15 @@ namespace Acme.Hosting.DmarcManager;
 
 using System;
 
+using Acme.Hosting.Dmarc.Events;
 using Acme.Hosting.Dmarc.Repository;
 using Acme.Hosting.Dmarc.Tools.Abstractions;
 using Acme.Hosting.Dmarc.Tools.Mail;
 using Acme.Hosting.Dmarc.Tools.Options;
 using Acme.Hosting.Dmarc.Tools.Stores;
 using Acme.Hosting.Dmarc.Tools.Xml;
+
+using MediatR;
 
 using Microsoft.Azure.Functions.Extensions.DependencyInjection;
 using Microsoft.EntityFrameworkCore;
@@ -44,6 +47,8 @@ public class Startup : FunctionsStartup
 
         var connectionString = GetEnvironmentVariable("SqlConnectionString");
         builder.Services.AddDbContext<DmarcDbContext>(options => options.UseSqlServer(connectionString));
+
+        builder.Services.AddMediatR(typeof(FetchReportsEvent).Assembly);
 
         builder.Services.AddScoped<IPop3Aggregator, Pop3Aggregator>();
         builder.Services.AddScoped<IRawReportStorage, RawReportStorage>();

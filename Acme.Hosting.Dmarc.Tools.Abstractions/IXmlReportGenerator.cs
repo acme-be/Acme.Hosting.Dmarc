@@ -1,4 +1,4 @@
-// <copyright file="IXmlReportParser.cs" company="Acme">
+// <copyright file="IXmlReportGenerator.cs" company="Acme">
 // Copyright (c) Acme. All rights reserved.
 // </copyright>
 

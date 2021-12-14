@@ -7,8 +7,10 @@ namespace Acme.Hosting.DmarcManager;
 using System;
 using System.Threading.Tasks;
 
+using Acme.Hosting.Dmarc.Events;
 using Acme.Hosting.Dmarc.Tools;
-using Acme.Hosting.Dmarc.Tools.Abstractions;
+
+using MediatR;
 
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -18,11 +20,11 @@ using Microsoft.Extensions.Logging;
 
 public class MailReportAggregatorLauncher
 {
-    private readonly IPop3Aggregator pop3Aggregator;
+    private readonly IMediator mediator;
 
-    public MailReportAggregatorLauncher(IPop3Aggregator pop3Aggregator)
+    public MailReportAggregatorLauncher(IMediator mediator)
     {
-        this.pop3Aggregator = pop3Aggregator;
+        this.mediator = mediator;
     }
 
     [FunctionName("MailReportAggregatorLauncher")]
@@ -30,7 +32,7 @@ public class MailReportAggregatorLauncher
     {
         log.LogInformation("MailReportAggregator executed by a http trigger function at: {date}", DateTime.UtcNow);
 
-        await this.pop3Aggregator.ExecuteAsync();
+        await this.mediator.Publish(new FetchReportsEvent());
 
         return new EmptyResult();
     }

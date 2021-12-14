@@ -13,7 +13,7 @@ using Azure.Messaging.ServiceBus;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 
-public class RawReportStorage: IRawReportStorage
+public class RawReportStorage : IRawReportStorage
 {
     private readonly ILogger<RawReportStorage> logger;
     private readonly ServiceBusOptions serviceBusOptions;
