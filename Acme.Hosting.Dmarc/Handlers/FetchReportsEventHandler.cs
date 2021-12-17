@@ -5,7 +5,7 @@
 namespace Acme.Hosting.Dmarc.Handlers;
 
 using Acme.Hosting.Dmarc.Events;
-using Acme.Hosting.Dmarc.Tools.Options;
+using Acme.Hosting.Dmarc.Options;
 
 using MailKit.Net.Pop3;
 

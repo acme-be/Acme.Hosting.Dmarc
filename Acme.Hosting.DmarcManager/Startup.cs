@@ -13,12 +13,8 @@ namespace Acme.Hosting.DmarcManager;
 using System;
 
 using Acme.Hosting.Dmarc.Events;
+using Acme.Hosting.Dmarc.Options;
 using Acme.Hosting.Dmarc.Repository;
-using Acme.Hosting.Dmarc.Tools.Abstractions;
-using Acme.Hosting.Dmarc.Tools.Mail;
-using Acme.Hosting.Dmarc.Tools.Options;
-using Acme.Hosting.Dmarc.Tools.Stores;
-using Acme.Hosting.Dmarc.Tools.Xml;
 
 using MediatR;
 
@@ -43,17 +39,10 @@ public class Startup : FunctionsStartup
             configuration.Password = GetEnvironmentVariable("PopPassword");
         });
 
-        builder.Services.Configure<ServiceBusOptions>(options => { options.ConnectionString = GetEnvironmentVariable("ServiceBusConnectionString"); });
-
         var connectionString = GetEnvironmentVariable("SqlConnectionString");
         builder.Services.AddDbContext<DmarcDbContext>(options => options.UseSqlServer(connectionString));
 
         builder.Services.AddMediatR(typeof(FetchReportsEvent).Assembly);
-
-        builder.Services.AddScoped<IPop3Aggregator, Pop3Aggregator>();
-        builder.Services.AddScoped<IRawReportStorage, RawReportStorage>();
-        builder.Services.AddScoped<IXmlReportStorage, XmlReportStorage>();
-        builder.Services.AddScoped<IXmlReportGenerator, XmlReportGenerator>();
     }
 
     private static string GetEnvironmentVariable(string name)

@@ -1,20 +1,18 @@
-// <copyright file="AttachmentReadHandler.cs" company="Acme">
+// <copyright file="AttachmentReadEventHandler.cs" company="Acme">
 // Copyright (c) Acme. All rights reserved.
 // </copyright>
 
 namespace Acme.Hosting.Dmarc.Handlers;
 
 using System.IO.Compression;
-using System.Text.Json;
 
 using Acme.Hosting.Dmarc.Events;
-using Acme.Hosting.Dmarc.Tools.Abstractions.Models;
 
 using MediatR;
 
 using Microsoft.Extensions.Logging;
 
-public class AttachmentReadEventHandler: INotificationHandler<AttachmentReadEvent>
+public class AttachmentReadEventHandler : INotificationHandler<AttachmentReadEvent>
 {
     private readonly ILogger<AttachmentReadEventHandler> logger;
     private readonly IMediator mediator;

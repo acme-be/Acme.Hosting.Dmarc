@@ -2,7 +2,7 @@
 // Copyright (c) Acme. All rights reserved.
 // </copyright>
 
-namespace Acme.Hosting.Dmarc.Tools.Options;
+namespace Acme.Hosting.Dmarc.Options;
 
 public class Pop3Options
 {
