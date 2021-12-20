@@ -8,7 +8,6 @@ using System;
 using System.Threading.Tasks;
 
 using Acme.Hosting.Dmarc.Events;
-using Acme.Hosting.Dmarc.Tools;
 
 using MediatR;
 

@@ -2,17 +2,14 @@
 // Copyright (c) Acme. All rights reserved.
 // </copyright>
 
-namespace Acme.Hosting.Dmarc.Handlers;
-
 using Acme.Hosting.Dmarc.Events;
 using Acme.Hosting.Dmarc.Options;
-
 using MailKit.Net.Pop3;
-
 using MediatR;
-
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+
+namespace Acme.Hosting.Dmarc.Handlers;
 
 public class FetchReportsEventHandler : INotificationHandler<FetchReportsEvent>
 {
@@ -20,7 +17,8 @@ public class FetchReportsEventHandler : INotificationHandler<FetchReportsEvent>
     private readonly IMediator mediator;
     private readonly Pop3Options options;
 
-    public FetchReportsEventHandler(ILogger<FetchReportsEventHandler> logger, IOptions<Pop3Options> options, IMediator mediator)
+    public FetchReportsEventHandler(ILogger<FetchReportsEventHandler> logger, IOptions<Pop3Options> options,
+        IMediator mediator)
     {
         this.logger = logger;
         this.mediator = mediator;
@@ -31,27 +29,26 @@ public class FetchReportsEventHandler : INotificationHandler<FetchReportsEvent>
     {
         using var client = new Pop3Client();
 
-        this.logger.LogDebug("Connecting to {popServer}:{popPort} ({popUseSsl})", this.options.Server, this.options.Port, this.options.UseSsl);
-        await client.ConnectAsync(this.options.Server, this.options.Port, this.options.UseSsl, cancellationToken);
+        logger.LogDebug("Connecting to {popServer}:{popPort} ({popUseSsl})", options.Server, options.Port,
+            options.UseSsl);
+        await client.ConnectAsync(options.Server, options.Port, options.UseSsl, cancellationToken);
 
-        this.logger.LogDebug("Authenticating with {popUserName}", this.options.UserName);
-        await client.AuthenticateAsync(this.options.UserName, this.options.Password, cancellationToken);
+        logger.LogDebug("Authenticating with {popUserName}", options.UserName);
+        await client.AuthenticateAsync(options.UserName, options.Password, cancellationToken);
 
-        this.logger.LogInformation("Client has {unread} unread messages", client.Count);
+        logger.LogInformation("Client has {unread} unread messages", client.Count);
 
         for (var i = 0; i < client.Count; i++)
         {
             var message = await client.GetMessageAsync(i, cancellationToken);
 
             foreach (var attachment in message.Attachments)
-            {
-                await this.mediator.Publish(new ProcessAttachmentEvent(attachment), cancellationToken);
-            }
+                await mediator.Publish(new ProcessAttachmentEvent(attachment), cancellationToken);
 
             await client.DeleteMessageAsync(i, cancellationToken);
         }
 
-        this.logger.LogDebug("Disconnecting");
+        logger.LogDebug("Disconnecting");
         await client.DisconnectAsync(true, cancellationToken);
     }
 }
